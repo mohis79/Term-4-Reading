@@ -1,38 +1,440 @@
 <!DOCTYPE html>
 <html lang="en-NZ">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Humanities Reading Taskboard</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      background: #f5f6ef;
-    }
-
-    iframe {
-      display: block;
-      width: 100%;
-      height: 100vh;
-      height: 100dvh;
-      border: 0;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Humanities Reading • Mrs Knibbs</title>
+<style>
+:root{
+  font-family:Arial,sans-serif;
+  color:#223b3a;
+  background:#f5f6ef;
+}
+*{box-sizing:border-box}
+body{margin:0}
+header{
+  background:#244e48;
+  color:white;
+  padding:30px max(20px,calc((100vw - 1100px)/2));
+}
+h1{font-size:clamp(30px,5vw,48px);margin:10px 0}
+header p{max-width:720px}
+.eyebrow{
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-size:12px;
+  font-weight:bold;
+  color:#cce2bd;
+}
+main{max-width:1100px;margin:auto;padding:24px 20px}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+button,.resource-link{
+  font:inherit;
+  border:1px solid #adc3b5;
+  background:white;
+  padding:12px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  color:#244e48;
+  font-weight:bold;
+}
+button[aria-pressed="true"]{background:#244e48;color:white}
+button:focus-visible,a:focus-visible,summary:focus-visible{
+  outline:3px solid #cc8200;
+  outline-offset:4px;
+}
+.groups button{flex:1}
+.card{
+  background:white;
+  border:1px solid #dce2d6;
+  border-radius:16px;
+  padding:24px;
+  margin-bottom:18px;
+  box-shadow:0 5px 15px #233a2810;
+}
+h2{margin:0 0 12px;font-size:27px}
+h3{margin-top:0}
+p,li{line-height:1.65}
+.session{
+  background:#fff0cf;
+  border-left:5px solid #bf8121;
+  padding:15px;
+  border-radius:8px;
+  margin:15px 0;
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.tag{
+  display:inline-block;
+  border-radius:20px;
+  background:#e8f0dc;
+  padding:6px 12px;
+  font-size:13px;
+  margin-bottom:12px;
+}
+.resource{
+  background:#f1f5ed;
+  padding:20px;
+  border-radius:12px;
+}
+.resource-link{
+  display:inline-block;
+  background:#244e48;
+  color:white;
+  text-decoration:none;
+}
+.resource-link:hover{background:#173e38}
+.questions li{margin-bottom:14px}
+.vocab{display:flex;flex-wrap:wrap;gap:8px}
+.vocab span{padding:8px 12px;background:#e7eef8;border-radius:8px}
+details{margin-top:15px}
+summary{cursor:pointer;font-weight:bold;padding:12px 0}
+.muted{color:#5c6c65;font-size:14px}
+footer{font-size:13px;padding:20px;text-align:center;color:#59695d}
+.routine{border-top:1px solid #dde4d8;padding-top:15px}
+@media(max-width:700px){
+  .grid{grid-template-columns:1fr}
+  .card{padding:18px}
+  nav button{padding:10px}
+}
+</style>
 </head>
-
 <body>
-  <iframe
-    src="https://knibbs-humanities-reading.stillbear32.chatgpt.site/"
-    title="Humanities Reading Taskboard"
-    allow="fullscreen"
-  ></iframe>
+
+<header>
+  <div class="eyebrow">
+    Term 4 • Week 1 • Compassionate • Mrs Knibbs
+  </div>
+  <h1>Reading taskboard</h1>
+  <p>
+    Choose your lesson and group. Read or listen carefully,
+    explain your thinking and use evidence.
+    How can understanding others help us show compassion?
+  </p>
+</header>
+
+<main>
+  <nav id="lessons" aria-label="Choose lesson"></nav>
+  <nav id="groups" class="groups" aria-label="Choose group"></nav>
+  <div id="content" aria-live="polite"></div>
+  <noscript>Please enable JavaScript to use this taskboard.</noscript>
+</main>
+
+<footer>Term 4 Reading • Mrs Knibbs</footer>
+
+<script>
+const resourceRoot =
+  "https://newzealandcurriculum.tahurangi.education.govt.nz/";
+
+const books = [
+  {
+    title: "Torty, the Lucky Tortoise",
+    issue: "Junior Journal 48 • 2014",
+    url: resourceRoot +
+      "new-zealand-curriculum-online/torty-the-lucky-tortoise/5637162687.p",
+    action: "Open text and audio",
+    note: "On the resource page, use the audio player or download the reading text.",
+    questions: [
+      [
+        "Who cared for Torty during the war?",
+        [
+          "A New Zealand stretcher-bearer",
+          "A shop owner",
+          "A school teacher"
+        ]
+      ],
+      "Find two details that show why Torty needed help.",
+      "Where did Torty live after the war? Find the sentence that tells you.",
+      "What is the main idea? Say it to a partner, then write one sentence.",
+      "What does Stewart’s care suggest about him? Use a clue from the text."
+    ],
+    vocab: ["lucky", "injured", "rescued", "survived", "care"]
+  },
+  {
+    title: "The Anzac Button",
+    issue: "School Journal • Level 2 • February 2012",
+    url: resourceRoot + "the-anzac-button/5637161869.p",
+    action: "Open story audio",
+    audioOnly: true,
+    note: "Use the audio player on the resource page. Pause and replay to find evidence.",
+    questions: [
+      [
+        "What object connects the different generations?",
+        ["A uniform button", "A toy boat", "A school bag"]
+      ],
+      "What happened during the war that made the button important? Listen again for the detail.",
+      "What did the soldier do with his jacket after the war?",
+      "Who is Ella, and how is she related to the soldier?",
+      "Why does Ella want to keep and wear the buttons? Use a detail from the recording.",
+      "What does the story help us understand about remembrance?"
+    ],
+    vocab: ["khaki", "battlefield", "parade", "ribbon", "generation"]
+  },
+  {
+    title: "Finding George",
+    issue: "School Journal • Level 3 • August 2018",
+    url: resourceRoot + "finding-george/5637160335.p",
+    action: "Open reading resource",
+    note: "Open the resource page and choose the reading text in its download resources.",
+    questions: [
+      "Who is George, and why does the writer want to find out about him?",
+      "Find two details that help the writer discover the family’s history.",
+      "How did German ancestry affect the family’s experiences? Use evidence.",
+      "Explain the main idea and give two supporting details.",
+      "What can you infer about why this history matters to the writer?",
+      "What question would you ask to learn more about George? Explain why."
+    ],
+    vocab: ["ancestry", "records", "evidence", "prejudice", "identity"]
+  },
+  {
+    title: "Stand Up: A History of Protest in New Zealand",
+    issue: "School Journal • Level 3 • November 2017",
+    url: resourceRoot +
+      "stand-up---a-history-of-protest-in-new-zealand/5637152888.p",
+    action: "Open reading resource",
+    note: "Open the resource page and choose the reading text in its download resources.",
+    questions: [
+      "Choose one protest. Who took part, and what change did they want?",
+      "How does the timeline help you understand the article?",
+      "Find two different ways people protested. Explain their purposes.",
+      "What main idea connects the examples? Support it with two details.",
+      "Choose one group’s perspective. What mattered to them? Use evidence.",
+      "How could understanding their experiences help us respond with compassion?"
+    ],
+    vocab: ["protest", "rights", "justice", "peaceful", "change"]
+  },
+  {
+    title: "Rise Up: The Story of the Dawn Raids and the Polynesian Panthers",
+    issue: "School Journal • Level 4 • November 2018",
+    url: resourceRoot +
+      "rise-up---the-story-of-the-dawn-raids/5637160369.p",
+    action: "Open reading resource",
+    note: "Open the resource page and choose the reading text in its download resources.",
+    questions: [
+      "What were the Dawn Raids? Explain the historical context in your own words.",
+      "How did the raids affect people and families? Cite two details.",
+      "What did the Polynesian Panthers seek to change?",
+      "How does a personal account help explain the impact of these events?",
+      "Identify a claim about unfair treatment. Explain the evidence supporting it.",
+      "Whose perspective is highlighted? What further source would help you understand another perspective?"
+    ],
+    vocab: [
+      "discrimination",
+      "immigration",
+      "activism",
+      "solidarity",
+      "injustice"
+    ]
+  },
+  {
+    title: "Brave Flower",
+    issue: "School Journal • Level 4 • November 2018 • Poem by Simone Kaho",
+    url: resourceRoot + "brave-flower/5637158892.p",
+    action: "Open poem resource",
+    note: "Open the resource page and choose the poem in its download resources.",
+    questions: [
+      "Who is the speaker? Which clues help you understand their experience?",
+      "Choose an image or metaphor. Explain what it suggests.",
+      "How does the arrangement of the poem contribute to its meaning?",
+      "What feeling does the poet create? Support your idea with a brief phrase.",
+      "Connect the poem with Rise Up. What does each text help us understand about the Dawn Raids?",
+      "How does poetry communicate a personal perspective differently from an article?"
+    ],
+    vocab: ["imagery", "metaphor", "speaker", "perspective", "resilience"]
+  }
+];
+
+const titles = [
+  "Read and understand",
+  "Questions and evidence",
+  "Explore the second text",
+  "Respond and reflect"
+];
+
+const sessions = {
+  2: {1: "First rotation", 2: "Second rotation"},
+  3: {3: "Teacher session"},
+  4: {4: "Teacher session"}
+};
+
+let lesson = 1;
+let group = 1;
+
+const el = id => document.getElementById(id);
+
+function esc(value) {
+  const characters = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  };
+  return String(value).replace(/[&<>"']/g, c => characters[c]);
+}
+
+function resource(book) {
+  const questions = book.questions.map(question => {
+    if (Array.isArray(question)) {
+      return `
+        <li>
+          ${esc(question[0])}
+          <ul>
+            ${question[1].map(
+              option => `<li>${esc(option)}</li>`
+            ).join("")}
+          </ul>
+        </li>`;
+    }
+    return `<li>${esc(question)}</li>`;
+  }).join("");
+
+  return `
+    <div class="resource">
+      <h3>${esc(book.title)}</h3>
+      <p class="muted">${esc(book.issue)}</p>
+
+      <a class="resource-link"
+         href="${esc(book.url)}"
+         target="_blank"
+         rel="noopener noreferrer">
+        ${esc(book.action)} ↗
+      </a>
+
+      <p>${esc(book.note)}</p>
+      <p class="muted">
+        The resource opens in a new tab.
+        Return to this taskboard to complete your activities.
+      </p>
+
+      <details open>
+        <summary>Comprehension questions</summary>
+        <p>
+          Complete the questions assigned today.
+          Write full sentences and support your answers
+          with details ${book.audioOnly ? "you heard" : "from the text"}.
+        </p>
+        <ol class="questions">${questions}</ol>
+      </details>
+
+      <details>
+        <summary>Vocabulary practice</summary>
+        <div class="vocab">
+          ${book.vocab.map(
+            word => `<span>${esc(word)}</span>`
+          ).join("")}
+        </div>
+        <ol>
+          <li>Write the word.</li>
+          <li>
+            Write what it means.
+            Use the text, audio or a dictionary to help.
+          </li>
+          <li>Write your own sentence using the word.</li>
+        </ol>
+        <p>Say your sentence to a partner before writing.</p>
+      </details>
+    </div>`;
+}
+
+function render() {
+  el("lessons").innerHTML = titles.map((title, i) => `
+    <button type="button"
+            aria-pressed="${lesson === i + 1}"
+            data-lesson="${i + 1}">
+      Lesson ${i + 1}
+    </button>
+  `).join("");
+
+  el("groups").innerHTML = [1, 2, 3, 4].map(g => `
+    <button type="button"
+            aria-pressed="${group === g}"
+            data-group="${g}">
+      Group ${g}
+    </button>
+  `).join("");
+
+  document.querySelectorAll("[data-lesson]").forEach(button => {
+    button.onclick = () => {
+      lesson = Number(button.dataset.lesson);
+      render();
+    };
+  });
+
+  document.querySelectorAll("[data-group]").forEach(button => {
+    button.onclick = () => {
+      group = Number(button.dataset.group);
+      render();
+    };
+  });
+
+  const band = group === 1 ? 0 : group === 2 ? 1 : 2;
+  const pair = [[0, 1], [2, 3], [4, 5]][band];
+  const book = books[pair[lesson >= 3 ? 1 : 0]];
+  const session = sessions[lesson]?.[group];
+
+  const tasks = [
+    "Read the first assigned section with a partner or support. Discuss the main idea and note important details.",
+    "Continue the first text and answer the assigned questions. Add evidence to your answers.",
+    `${book.audioOnly ? "Listen to" : "Read"} the second resource. Discuss its message, then complete the vocabulary activity.`,
+    "Complete the assigned questions for the second resource. Explain what it helps you understand about people’s experiences."
+  ];
+
+  el("content").innerHTML = `
+    <section class="card">
+      <span class="tag">
+        Week 1 • Lesson ${lesson} • Group ${group}
+      </span>
+
+      <h2>${titles[lesson - 1]}</h2>
+
+      ${session ? `
+        <div class="session">
+          <b>With Mrs Knibbs — ${esc(session)}</b>
+          <p>
+            Bring your reading book and resource.
+            Work independently until called.
+            Use our discussion to improve your answers afterwards.
+          </p>
+        </div>
+      ` : `
+        <p class="muted">
+          Independent work today.
+          Ask your partner, reread or replay,
+          then note a question if you need help.
+        </p>
+      `}
+
+      <h3>Must do • Reading</h3>
+      <p>${tasks[lesson - 1]}</p>
+      <p><b>Today’s resource:</b> ${esc(book.title)}</p>
+
+      <div class="routine grid">
+        <div>
+          <b>Improve</b>
+          <p>
+            Add evidence to an answer and explain
+            how it supports your thinking.
+          </p>
+        </div>
+        <div>
+          <b>If finished</b>
+          <p>
+            Collect an interesting word or phrase
+            and explain its meaning or effect.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Today’s reading resource</h2>
+      ${resource(book)}
+    </section>
+  `;
+}
+
+render();
+</script>
+
 </body>
 </html>
